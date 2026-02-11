@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Bank Sampah SMAN 1 Magetan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f0fdf4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .form-container {
+            background: white;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4">
+
+    <div class="max-w-md mx-auto form-container rounded-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-green-600 p-6 text-white text-center">
+            <h1 class="text-2xl font-bold">Bank Sampah</h1>
+            <p class="text-green-100 uppercase tracking-wider text-sm">SMAN 1 MAGETAN</p>
+        </div>
+
+        <!-- Form -->
+        <form id="trashForm" class="p-6 space-y-5">
+            <!-- Input Kelas -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Pilih Kelas</label>
+                <select name="kelas" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all">
+                    <option value="" disabled selected>Pilih Kelas Anda</option>
+                    
+                    <!-- X 1-10 -->
+                    <optgroup label="Kelas X">
+                        <script>
+                            for(let i=1; i<=10; i++) document.write(`<option value="X ${i}">X ${i}</option>`);
+                        </script>
+                    </optgroup>
+
+                    <!-- XI 1-10 -->
+                    <optgroup label="Kelas XI">
+                        <script>
+                            for(let i=1; i<=10; i++) document.write(`<option value="XI ${i}">XI ${i}</option>`);
+                        </script>
+                    </optgroup>
+
+                    <!-- XII 1-10 -->
+                    <optgroup label="Kelas XII">
+                        <script>
+                            for(let i=1; i<=10; i++) document.write(`<option value="XII ${i}">XII ${i}</option>`);
+                        </script>
+                    </optgroup>
+                </select>
+            </div>
+
+            <!-- Input Jenis Sampah -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Sampah</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-green-50 transition-colors">
+                        <input type="radio" name="jenis_sampah" value="Organik" required class="w-4 h-4 text-green-600">
+                        <span class="ml-2 text-sm text-gray-700">Organik</span>
+                    </label>
+                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-green-50 transition-colors">
+                        <input type="radio" name="jenis_sampah" value="Kaca" class="w-4 h-4 text-green-600">
+                        <span class="ml-2 text-sm text-gray-700">Kaca</span>
+                    </label>
+                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-green-50 transition-colors">
+                        <input type="radio" name="jenis_sampah" value="Plastik" class="w-4 h-4 text-green-600">
+                        <span class="ml-2 text-sm text-gray-700">Plastik</span>
+                    </label>
+                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-green-50 transition-colors">
+                        <input type="radio" name="jenis_sampah" value="Kaleng" class="w-4 h-4 text-green-600">
+                        <span class="ml-2 text-sm text-gray-700">Kaleng</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Input Berat -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Berat Sampah (kg)</label>
+                <input type="number" step="0.1" name="berat" placeholder="Contoh: 1.5" required 
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+            </div>
+
+            <!-- Keterangan Tambahan -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan (Opsional)</label>
+                <textarea name="keterangan" rows="2" placeholder="Catatan tambahan..." 
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none"></textarea>
+            </div>
+
+            <!-- Tombol Submit -->
+            <button type="submit" id="submitBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-all transform active:scale-95 shadow-md">
+                Kirim Data
+            </button>
+        </form>
+
+        <!-- Status Message -->
+        <div id="statusMsg" class="hidden p-4 mx-6 mb-6 rounded-lg text-center text-sm font-medium"></div>
+
+        <!-- Footer Logo/Credit -->
+        <div class="p-6 pt-0 text-center">
+            <p class="text-xs text-gray-400 italic">© 2025 Bank Sampah SMAN 1 Magetan</p>
+        </div>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyD2T8kzu6CXGEW5zqL0KmxU-cD9_3jx3W74QNrSUzqXBnBQRBkSbR8tD1UbGlrr4nO/exec';
+        const form = document.getElementById('trashForm');
+        const btn = document.getElementById('submitBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            if (!scriptURL || scriptURL.includes('MASUKKAN_URL')) {
+                showStatus('Silakan atur URL Apps Script di dalam kode terlebih dahulu!', 'bg-yellow-100 text-yellow-700');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = 'Mengirim...';
+            btn.classList.add('opacity-50');
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    showStatus('Data berhasil dikirim ke Spreadsheet!', 'bg-green-100 text-green-700');
+                    form.reset();
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    showStatus('Terjadi kesalahan saat mengirim data.', 'bg-red-100 text-red-700');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Kirim Data';
+                    btn.classList.remove('opacity-50');
+                });
+        });
+
+        function showStatus(text, classes) {
+            statusMsg.innerText = text;
+            statusMsg.className = `p-4 mx-6 mb-6 rounded-lg text-center text-sm font-medium ${classes}`;
+            statusMsg.classList.remove('hidden');
+            setTimeout(() => {
+                statusMsg.classList.add('hidden');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
